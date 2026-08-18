@@ -638,18 +638,6 @@ def search_quote_history(search_terms: List[str], limit: int = 5) -> List[Dict]:
         result = conn.execute(text(query), params)
         return [dict(row._mapping) for row in result]
 
-########################
-########################
-########################
-# YOUR MULTI AGENT STARTS HERE
-########################
-########################
-########################
-
-
-#class CustomerOperationsSupervisor:
-    
-
 # Tools for inventory agent
 @tool
 def get_inventory_status(item_name: str, as_of_date: str) -> str:
