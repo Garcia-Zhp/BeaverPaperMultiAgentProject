@@ -6,11 +6,12 @@ A system that handles customer requests for a paper supply company using five ag
 
 ## The agents
 
-**CustomerOperationsSupervisor** is the entry point. Every request goes through it first. It reads the request, looks at a set of routing rules in its prompt (keywords like "inventory," "quote," "buy"), and calls one of three tools to hand the request off:
+**CustomerOperationsSupervisor** is the entry point. Every request goes through it first. It reads the request, looks at a set of routing rules in its prompt (keywords like "inventory," "quote," "buy"), and calls one of four tools to hand the request off:
 
 - `delegate_to_inventory_specialist`
 - `delegate_to_quote_specialist`
 - `delegate_to_sales_transaction_agent`
+- `delegate_to_supply_operations_specialist`
 
 **InventorySpecialist** answers questions about stock levels and delivery timelines. It has four tools: `get_inventory_status`, `check_inventory_availability`, `get_delivery_timeline`, and `get_all_available_inventory`.
 
@@ -28,14 +29,17 @@ A system that handles customer requests for a paper supply company using five ag
 4. If at least one item sold, the system automatically runs the SupplyOperationsSpecialist afterward to check if that sale pushed any item below its minimum stock level. If so, it creates a purchase order to restock.
 5. The result bubbles back up through the supervisor and is returned to the caller as a combined summary of the sale and any restocking decision.
 
-One thing worth noting about this flow: SupplyOperationsSpecialist is never called directly by the supervisor, even though the supervisor's own instructions mention it as an option for "low stock, reorder" requests. In the actual code, the supervisor only has tools to reach the inventory, quote, and sales agents. Supply operations only run as a side effect after a completed sale. A standalone question like "should we reorder cardstock" would not currently reach that agent. This is a gap I would fix by giving the supervisor a fourth delegate tool for supply requests.
+One design decision worth explaining: SupplyOperationsSpecialist can be reached two different ways, and those two paths are kept deliberately separate. After a completed sale, SalesTransactionAgent automatically runs a supply check as a side effect, so the supervisor never needs to call SupplyOperationsSpecialist itself in that situation. The supervisor's own `delegate_to_supply_operations_specialist` tool is reserved for requests that are not tied to a sale, such as a standalone question about whether to reorder cardstock. The supervisor's prompt explicitly tells it not to call the supply tool right after a sales delegation, since the automatic follow-up already covers that case. Without that rule, both paths could fire for the same sale and produce two separate purchase orders for the same restock.
 
 ## How state is tracked
 
 There is no single variable holding "current cash" or "current stock." Instead, every sale and every stock order gets written as a row in a `transactions` table in a SQLite database. Cash balance and inventory levels are both calculated by adding up the relevant rows in that table up to a given date. This means the system always has a full history of what happened and when, and a snapshot for any date can be reconstructed by replaying the transactions up to that point.
 
-For a project this size, recomputing balances by scanning the transactions table works fine and keeps the logic simple: there is no risk of a stored balance drifting out of sync with the actual history, and every past date can be reconstructed on demand. If this were a production system handling a much larger transaction volume, I would not scan the full table on every read. I would add an index on transaction_date and item_name so lookups are not full table scans, and I would introduce periodic balance snapshots, so a balance is computed by taking the most recent snapshot and only summing the transactions since then instead of replaying the entire history every time. The full transaction log would stay in place either way, since that is what makes past dates reconstructable and the numbers auditable.
-
 ## Testing
 
 I ran the system against a sample set of customer requests from `quote_requests_sample.csv`, processing each one in order by request date. The script prints out each agent's reasoning and tool calls as it runs, tracks cash and inventory balances after each request, and writes a summary of all requests to `test_results.csv`. The run included both fully fulfilled orders and cases where an item was out of stock, and the system correctly separated fulfilled items from unavailable ones in its response rather than reporting a sale that did not fully happen.
+
+# What can be improved
+1. For a project this size, recomputing balances by scanning the transactions table works fine and keeps the logic simple: there is no risk of a stored balance drifting out of sync with the actual history, and every past date can be reconstructed on demand. If this were a production system handling a much larger transaction volume, I would not scan the full table on every read. I would add an index on transaction_date and item_name so lookups are not full table scans, and I would introduce periodic balance snapshots, so a balance is computed by taking the most recent snapshot and only summing the transactions since then instead of replaying the entire history every time. The full transaction log would stay in place either way, since that is what makes past dates reconstructable and the numbers auditable.
+
+2. Replace the current keyword-based routing mechanism with an intent-classification agent that analyzes the full customer request and determines the most appropriate specialist based on meaning and context rather than siumple keyword matching. This would make routing more robust to variations in phrasing, reduce maintenance of keyword lists, and improve accuracy for ambiguous requests.

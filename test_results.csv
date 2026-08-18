@@ -1,36 +1,86 @@
 request_id,request_date,cash_balance,inventory_value,response
-1,2025-04-01,45059.7,4940.299999999999,"Unfortunately, none of the requested paper supplies are available: A4 glossy paper, heavy cardstock (white), and colored paper (assorted colors) have 0 units available."
-2,2025-04-03,45059.7,4940.299999999999,SalesTransactionAgent selected
-3,2025-04-04,45059.7,4940.299999999999,SalesTransactionAgent selected
-4,2025-04-05,45059.7,4940.299999999999,"Order confirmed for 500 sheets of high-quality recycled cardstock and 250 sheets of A4 size printer paper, estimated delivery on April 9, 2025."
-5,2025-04-05,45059.7,4940.299999999999,"Order placed for: 500 sheets of colored paper, 300 sheets of cardstock, and 200 rolls of washi tape. Estimated delivery by April 9, 2025."
-6,2025-04-06,45059.7,4940.299999999999,"Insufficient inventory for colorful construction paper, white printer paper, and cardstock. Cannot fulfill the order."
-7,2025-04-07,45059.7,4940.299999999999,"{'Backorder Summary': {'glossy A4 paper': 'Backorder placed', 'matte A3 paper': 'Backorder placed', 'poster boards (24"" x 36"")': 'Backorder placed', 'heavyweight cardstock': 'Backorder placed'}, 'Expected Delivery Date': '2025-04-11'}"
-8,2025-04-07,45059.7,4940.299999999999,SalesTransactionAgent selected
-9,2025-04-07,45059.7,4940.299999999999,SalesTransactionAgent selected
-13,2025-04-08,45059.7,4940.299999999999,Unable to fulfill the order for A4 printing paper and cardstock due to insufficient inventory.
-12,2025-04-08,45059.7,4940.299999999999,We cannot fulfill your order for 200 sheets of colorful cardstock due to insufficient inventory. Please adjust your request.
-10,2025-04-08,45059.7,4940.299999999999,"Order placed successfully for 500 sheets of high-quality glossy paper and 300 sheets of sturdy cardstock with estimated delivery by April 12, 2025."
-11,2025-04-08,45059.7,4940.299999999999,SalesTransactionAgent selected
-14,2025-04-09,45059.7,4940.299999999999,"Cannot fulfill the entire request by April 15, 2025:
-- A4 paper: estimated delivery on April 16, 2025 (insufficient inventory)
-- Poster paper: estimated delivery on April 16, 2025 (insufficient inventory)
-- Cardstock: estimated delivery on April 13, 2025 (available)"
-15,2025-04-12,45059.7,4940.299999999999,SalesTransactionAgent selected
-16,2025-04-13,45059.7,4940.299999999999,SalesTransactionAgent selected
-17,2025-04-14,45059.7,4940.299999999999,SalesTransactionAgent selected
-18,2025-04-14,45059.7,4940.299999999999,"The requested paper supplies cannot be fulfilled by the required delivery date of April 15, 2025. All items are currently out of stock, with an estimated delivery date of April 18, 2025."
-19,2025-04-15,45059.7,4940.299999999999,"
-Dear [Manufacturer's Name],
+1,2025-04-01,45124.7,4875.3,"Sales response:
+{'partial_fulfillment_status': 'fully_fulfilled', 'fulfilled_items': [{'requested_item': 'A4 glossy paper', 'matched_item': 'Glossy paper', 'quantity': 200, 'transaction_id': 20, 'unit_price': 0.2, 'total_price': 40.0, 'estimated_delivery_date': '2025-04-05'}, {'requested_item': 'heavy cardstock (white)', 'matched_item': 'Cardstock', 'quantity': 100, 'transaction_id': 21, 'unit_price': 0.15, 'total_price': 15.0, 'estimated_delivery_date': '2025-04-02'}, {'requested_item': 'colored paper (assorted colors)', 'matched_item': 'Colored paper', 'quantity': 100, 'transaction_id': 22, 'unit_price': 0.1, 'total_price': 10.0, 'estimated_delivery_date': '2025-04-02'}], 'unavailable_items': [], 'total_price_for_fulfilled_items': 65.0, 'customer_message': 'Your order has been successfully fulfilled and will be delivered by the estimated delivery date.'}
 
-I would like to place an order for the following paper supplies for our upcoming exhibition:
+Supply operations follow-up:
+Replenishment is unnecessary. All items have sufficient stock:
+- A4 glossy paper: Current stock 387, Minimum stock level 147
+- Heavy cardstock (white): Current stock 495, Minimum stock level 148
+- Colored paper (assorted colors): Current stock 688, Minimum stock level 143"
+2,2025-04-03,45624.7,4375.3,"Sales response:
+{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': 'colorful poster paper', 'matched_item': 'Large poster paper (24x36 inches)', 'quantity': 500, 'transaction_id': 23, 'unit_price': 1.0, 'total_price': 500.0, 'estimated_delivery_date': '2025-04-07'}], 'unavailable_items': [{'requested_item': 'streamers', 'quantity': 300, 'reason': 'Item not found.'}, {'requested_item': 'balloons', 'quantity': 200, 'reason': 'Item not found.'}], 'total_price_for_fulfilled_items': 500.0, 'customer_message': 'Your order has been partially fulfilled.'}
 
-- 2000 sheets of A4 glossy paper (Currently unavailable)
-- 1500 sheets of A3 matte paper (Currently unavailable)
-- 1000 sheets of cardstock in assorted colors (Estimated delivery by April 19, 2025)
+Supply operations follow-up:
+Replenishment is unnecessary because the current stock of Large poster paper (24x36 inches) is 199, which exceeds the minimum required stock level of 89."
+3,2025-04-04,45624.7,4375.3,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 paper', 'quantity': 10000, 'reason': 'Insufficient stock. Requested 10000, current stock 272.'}, {'requested_item': 'A3 paper', 'quantity': 5000, 'reason': 'Insufficient stock. Requested 5000, current stock 249.'}, {'requested_item': 'printer paper', 'quantity': 500, 'reason': 'Not found. Current stock 0.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, we cannot fulfill your order as all requested items are unavailable.'}
 
-Please note that we need the supplies delivered by April 20, 2025. I would appreciate it if you could let me know when the A4 glossy paper and A3 matte paper could be available, or if there are any alternatives.
+Supply review skipped because no sale was completed."
+4,2025-04-05,45618.05,4381.95,"Sales response:
+{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': 'A4 size printer paper', 'matched_item': 'A4 paper', 'quantity': 250, 'transaction_id': 24, 'unit_price': 0.05, 'total_price': 12.5, 'estimated_delivery_date': '2025-04-09'}], 'unavailable_items': [{'requested_item': 'high-quality, recycled cardstock', 'quantity': 500, 'reason': 'Inventory insufficient for requested quantity.'}], 'total_price_for_fulfilled_items': 12.5, 'customer_message': 'Your order has been partially fulfilled. Please note that high-quality, recycled cardstock is unavailable due to insufficient stock.'}
 
-Thank you!
-"
-20,2025-04-17,45059.7,4940.299999999999,SalesTransactionAgent selected
+Supply operations follow-up:
+A purchase order for 383 units of 'A4 paper' has been created. Estimated supplier delivery date: 2025-04-09."
+5,2025-04-05,45713.05,4286.95,"Sales response:
+{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': '8.5""x11"" colored paper', 'matched_item': 'Colored paper', 'quantity': 500, 'transaction_id': 26, 'unit_price': 0.1, 'total_price': 50.0, 'estimated_delivery_date': '2025-04-09'}, {'requested_item': 'cardstock in various colors', 'matched_item': 'Cardstock', 'quantity': 300, 'transaction_id': 27, 'unit_price': 0.15, 'total_price': 45.0, 'estimated_delivery_date': '2025-04-09'}], 'unavailable_items': [{'requested_item': 'decorative washi tape', 'quantity': 200, 'reason': 'Item not found in inventory.'}], 'total_price_for_fulfilled_items': 95.0, 'customer_message': 'Order processed partially due to availability constraints.'}
+
+Supply operations follow-up:
+No replenishment is necessary as both items have sufficient stock levels: 188 for '8.5""x11"" colored paper' (minimum 143) and 195 for 'cardstock in various colors' (minimum 148)."
+6,2025-04-06,45966.4,4033.6,"Sales response:
+{'partial_fulfillment_status': 'fully_fulfilled', 'fulfilled_items': [{'requested_item': 'colorful construction paper', 'matched_item': '80 lb text paper', 'quantity': 249, 'transaction_id': 28, 'unit_price': 0.4, 'total_price': 99.6, 'estimated_delivery_date': '2025-04-10'}, {'requested_item': 'white printer paper', 'matched_item': '80 lb text paper', 'quantity': 249, 'transaction_id': 29, 'unit_price': 0.5, 'total_price': 124.5, 'estimated_delivery_date': '2025-04-10'}, {'requested_item': 'cardstock', 'matched_item': 'Cardstock', 'quantity': 195, 'transaction_id': 30, 'unit_price': 0.15, 'total_price': 29.25, 'estimated_delivery_date': '2025-04-10'}], 'unavailable_items': [], 'total_price_for_fulfilled_items': 253.35, 'customer_message': 'For the items requested, we have fulfilled the order partially. Total fulfilled items: 3, Total unavailable items: 0.'}
+
+Supply operations follow-up:
+Replenishment is unnecessary because both 'colorful construction paper' and 'white printer paper' are above minimum stock levels, and 'cardstock' could not be found in our inventory for review."
+7,2025-04-07,45966.4,4033.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'glossy A4 paper', 'quantity': 500, 'reason': 'Requested 500, current stock 405.'}, {'requested_item': 'matte A3 paper', 'quantity': 1000, 'reason': 'Requested 1000, current stock 0.'}, {'requested_item': 'poster boards (24"" x 36"")', 'quantity': 300, 'reason': 'Requested 300, current stock 199.'}, {'requested_item': 'heavyweight cardstock', 'quantity': 200, 'reason': 'Item not found for customer request.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, none of the requested items are available.'}
+
+Supply review skipped because no sale was completed."
+8,2025-04-07,45966.4,4033.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 glossy paper', 'quantity': 500, 'reason': 'not enough inventory or item not found'}, {'requested_item': 'A4 matte paper', 'quantity': 1000, 'reason': 'not enough inventory or item not found'}, {'requested_item': 'A5 colored paper', 'quantity': 2000, 'reason': 'not enough inventory or item not found'}, {'requested_item': 'A4 recycled paper', 'quantity': 3000, 'reason': 'not enough inventory or item not found'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Your order has been processed. Summary of fulfillment:'}
+
+Supply review skipped because no sale was completed."
+9,2025-04-07,46001.4,3998.6,"Sales response:
+{'partial_fulfillment_status': 'fully_fulfilled', 'fulfilled_items': [{'requested_item': '200 sheets of A4 white printer paper', 'matched_item': 'A4 paper', 'quantity': 200, 'transaction_id': 31, 'unit_price': 0.05, 'total_price': 10.0, 'estimated_delivery_date': '2025-04-11'}, {'requested_item': '100 sheets of A3 glossy paper', 'matched_item': 'Glossy paper', 'quantity': 100, 'transaction_id': 32, 'unit_price': 0.2, 'total_price': 20.0, 'estimated_delivery_date': '2025-04-08'}, {'requested_item': '50 sheets of 100% recycled kraft paper envelopes', 'matched_item': 'Kraft paper', 'quantity': 50, 'transaction_id': 33, 'unit_price': 0.1, 'total_price': 5.0, 'estimated_delivery_date': '2025-04-08'}], 'unavailable_items': [], 'total_price_for_fulfilled_items': 35.0, 'customer_message': 'Your order has been fully fulfilled and will be delivered by the expected date.'}
+
+Supply operations follow-up:
+Replenishment is unnecessary because:
+- A4 paper has a current stock of 205, exceeding the minimum stock level of 135.
+- Glossy paper has a current stock of 287, exceeding the minimum stock level of 147.
+- Kraft paper has a current stock of 443, exceeding the minimum stock level of 64."
+13,2025-04-08,46001.4,3998.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 printing paper', 'quantity': 500, 'reason': 'Insufficient inventory. Requested 500, current stock 205.'}, {'requested_item': 'cardstock', 'quantity': 200, 'reason': 'Item not found in inventory.'}], 'total_price_for_fulfilled_items': 0, 'customer_message': 'Thank you for your order. Some items were unavailable.'}
+
+Supply review skipped because no sale was completed."
+12,2025-04-08,45991.4,4008.6,"Sales response:
+{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': 'paper napkins', 'matched_item': 'A4 paper', 'quantity': 100, 'transaction_id': 34, 'unit_price': 0.05, 'total_price': 5.0, 'estimated_delivery_date': '2025-04-09'}], 'unavailable_items': [{'requested_item': 'colorful cardstock', 'quantity': 200, 'reason': 'Item not found for customer request: colorful cardstock.'}, {'requested_item': 'standard printer paper', 'quantity': 500, 'reason': 'Order cannot be fulfilled. Matched item: A4 paper. Requested 500, current stock 205.'}], 'total_price_for_fulfilled_items': 5.0, 'customer_message': 'Order partial fulfillment details: Some items were unavailable: colorful cardstock, standard printer paper.'}
+
+Supply operations follow-up:
+{'A4 paper': {'reorder_needed': 'Yes', 'purchase_order_created': True, 'estimated_delivery_date': '2025-04-12'}, 'colorful cardstock': {'reorder_needed': 'Unknown (not found)'}, 'standard printer paper': {'reorder_needed': 'No'}}"
+10,2025-04-08,45991.4,4008.6,"Unfortunately, we could not fulfill your order for 500 sheets of high-quality glossy paper and 300 sheets of sturdy cardstock due to insufficient inventory and unavailability of the cardstock."
+11,2025-04-08,45991.4,4008.6,"Sales response:
+{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': 'A4 matte paper', 'matched_item': 'A4 paper', 'quantity': 300, 'transaction_id': 36, 'unit_price': 0.05, 'total_price': 15.0, 'estimated_delivery_date': '2025-04-12'}], 'unavailable_items': [{'requested_item': 'A3 glossy paper', 'quantity': 500, 'reason': 'insufficient inventory'}], 'total_price_for_fulfilled_items': 15.0, 'customer_message': 'Your order has been partially fulfilled.'}
+
+Supply operations follow-up:
+Purchase order created: Purchase order created successfully. Transaction ID: 37. Item: A4 paper. Quantity: 300. Unit cost: $0.05. Total cost: $15.00. Estimated supplier delivery date: 2025-04-12.. Estimated delivery date: 2025-04-12."
+14,2025-04-09,45991.4,4008.6,"{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 paper', 'quantity': 5000, 'reason': 'Requested quantity exceeds current stock.'}, {'requested_item': 'poster paper', 'quantity': 2000, 'reason': 'Requested quantity exceeds current stock.'}, {'requested_item': 'cardstock', 'quantity': 500, 'reason': 'Item not found in inventory.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, none of the requested items are available for fulfillment.'}"
+15,2025-04-12,45991.4,4008.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 white paper', 'quantity': 10000, 'reason': 'Insufficient stock (requested 10000, current stock 405).'}, {'requested_item': 'A3 colored paper', 'quantity': 5000, 'reason': 'Insufficient stock (requested 5000, current stock 188).'}, {'requested_item': 'cardboard', 'quantity': 500, 'reason': 'Item not found.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, none of the requested items are available.'}
+
+Supply review skipped because no sale was completed."
+16,2025-04-13,46101.4,3898.6,"{'partial_fulfillment_status': 'partially_fulfilled', 'fulfilled_items': [{'requested_item': 'colorful construction paper', 'matched_item': 'A4 paper', 'quantity': 200, 'transaction_id': 38, 'unit_price': 0.05, 'total_price': 10.0, 'estimated_delivery_date': '2025-04-17'}, {'requested_item': 'poster board', 'matched_item': 'Large poster paper (24x36 inches)', 'quantity': 100, 'transaction_id': 39, 'unit_price': 1.0, 'total_price': 100.0, 'estimated_delivery_date': '2025-04-14'}], 'unavailable_items': [{'requested_item': 'A4 printer paper', 'quantity': 500, 'reason': 'insufficient inventory'}], 'total_price_for_fulfilled_items': 110.0, 'customer_message': 'Your order has been processed.'}"
+17,2025-04-14,46101.4,3898.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 white printer paper', 'quantity': 1000, 'reason': 'not found'}, {'requested_item': 'A3 colored paper (assorted colors)', 'quantity': 500, 'reason': 'not found'}, {'requested_item': 'table napkins (white)', 'quantity': 2000, 'reason': 'not found'}, {'requested_item': 'paper cups (biodegradable)', 'quantity': 1000, 'reason': 'not found'}, {'requested_item': 'paper plates (biodegradable)', 'quantity': 500, 'reason': 'not found'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, none of the requested items are available for fulfillment.'}
+
+Supply review skipped because no sale was completed."
+18,2025-04-14,46101.4,3898.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'high-quality white cardstock', 'quantity': 500, 'reason': 'Item not found in inventory.'}, {'requested_item': 'standard printing paper', 'quantity': 1000, 'reason': 'Item not found in inventory.'}, {'requested_item': 'colored paper in assorted colors', 'quantity': 200, 'reason': 'Insufficient stock.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'All requested items are unavailable.'}
+
+Supply review skipped because no sale was completed."
+19,2025-04-15,46101.4,3898.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'A4 glossy paper', 'quantity': 2000, 'reason': 'Insufficient inventory (287 available)'}, {'requested_item': 'A3 matte paper', 'quantity': 1500, 'reason': 'Not found'}, {'requested_item': 'cardstock in assorted colors', 'quantity': 1000, 'reason': 'Not found'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, we cannot fulfill your order for the requested paper supplies.'}
+
+Supply review skipped because no sale was completed."
+20,2025-04-17,46101.4,3898.6,"Sales response:
+{'partial_fulfillment_status': 'not_fulfilled', 'fulfilled_items': [], 'unavailable_items': [{'requested_item': 'flyers', 'quantity': 5000, 'reason': 'Item not found.'}, {'requested_item': 'posters', 'quantity': 2000, 'reason': 'Item not found.'}, {'requested_item': 'tickets', 'quantity': 10000, 'reason': 'Item not found.'}], 'total_price_for_fulfilled_items': 0.0, 'customer_message': 'Unfortunately, none of the requested items are available.'}
+
+Supply review skipped because no sale was completed."
