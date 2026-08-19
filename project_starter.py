@@ -1040,6 +1040,21 @@ def create_purchase_order(item_name: str, quantity: int, order_date: str) -> str
         f"Estimated supplier delivery date: {estimated_delivery_date}."
     )
 
+@tool
+def get_financial_report(as_of_date: str) -> Dict:
+    """
+    Generates a financial report containing cash balance,
+    inventory value, total assets, inventory summary,
+    and top selling products.
+
+    Args:
+        as_of_date: Date used to generate the report in YYYY-MM-DD format.
+
+    Returns:
+        Financial report dictionary.
+    """
+
+    return generate_financial_report(as_of_date)
 
 def get_unit_price_for_item(item_name: str):
     """
@@ -1224,22 +1239,6 @@ def get_request_date(request_text: str) -> str:
         return match.group(1)
 
     return "2025-01-01"
-
-@tool
-def get_financial_report(as_of_date: str) -> Dict:
-    """
-    Generates a financial report containing cash balance,
-    inventory value, total assets, inventory summary,
-    and top selling products.
-
-    Args:
-        as_of_date: Date used to generate the report in YYYY-MM-DD format.
-
-    Returns:
-        Financial report dictionary.
-    """
-
-    return generate_financial_report(as_of_date)
 
 # Set up your agents and create an orchestration agent that will manage them.
 inventory_agent = CodeAgent(
@@ -1456,7 +1455,8 @@ orchestrator_agent = CodeAgent(
     tools=[
         delegate_to_inventory_specialist,
         delegate_to_quote_specialist,
-        delegate_to_sales_transaction_agent
+        delegate_to_sales_transaction_agent,
+        delegate_to_supply_operations_specialist
         ],
     model=model,
     name="CustomerOperationsSupervisor",
@@ -1480,7 +1480,15 @@ def customer_operations_supervisor(request: str) -> str:
         f"""
         You are the CustomerOperationsSupervisor for a paper supply company.
 
-        Analyze the customer request and choose the best specialist agent to handle it.
+        For every request, you MUST:
+        1. Decide which specialist agent should handle it, using the routing rules below.
+        2. Call that specialist's delegate_to_* tool with the request.
+        3. Return the delegate tool's output EXACTLY as your final answer.
+
+        Do not stop after choosing a specialist. Naming the specialist (e.g. answering
+        with something like "SalesTransactionAgent selected") is NOT a valid final answer.
+        You must actually call the delegate_to_* tool and your final_answer must be that
+        tool's returned output, unchanged.
 
         IMPORTANT DATE RULE:
         - The scenario request date is: {CURRENT_REQUEST_DATE}
@@ -1493,8 +1501,12 @@ def customer_operations_supervisor(request: str) -> str:
         - Use InventorySpecialist for inventory status, stock availability, and delivery timeline questions.
         - Use QuoteSpecialistAgent for quote, estimate, price, pricing, or cost requests.
         - Use SalesTransactionAgent for buy, purchase, order, request, delivery, or transaction requests.
-        - Use SupplyOperationsSpecialist for low stock, reorder, supplier, purchasing, or replenishment requests.
-        - If a purchase affects inventory, ensure supply operations is considered after the sale.
+        - Use SupplyOperationsSpecialist for low stock, reorder, supplier, purchasing, or replenishment
+          requests that are NOT part of a sale (e.g. a proactive reorder check).
+        - Do NOT call SupplyOperationsSpecialist after a SalesTransactionAgent delegation. Supply
+          review after a completed sale already happens automatically inside the sales delegation
+          and is included in its returned output. Calling SupplyOperationsSpecialist again yourself
+          would duplicate that review and risks creating a duplicate purchase order.
 
         Customer request:
         {request}
